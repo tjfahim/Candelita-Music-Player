@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -21,21 +23,31 @@ class LoginController extends Controller
     // Handle the login process manually
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withInput()->withErrors($validator);
+        }
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-
-            // Redirect to the appropriate dashboard based on the user's role
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('music.list');
             }
         }
+        $user = User::where('email', $request->email)->first();
 
-        // Failed login attempt, redirect back with errors
-        return redirect()->back()->withInput()->withErrors(['email' => 'Invalid credentials']);
+        if ($user) {
+            return redirect()->back()->withInput()->withErrors(['password' => 'Incorrect password']);
+        } else {
+            return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email']);
+            }
+
     }
 
 
@@ -65,7 +77,7 @@ class LoginController extends Controller
     Auth::login($user);
 
     // Redirect the user to the dashboard after registration
-    return redirect()->route('admin.dashboard');
+    return redirect()->route('music.list');
 }
 
 public function showLoginForm()
