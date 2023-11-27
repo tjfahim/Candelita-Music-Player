@@ -12,6 +12,5 @@ class Settings extends Model
         'title',
         'image',
         'link',
-        'status'
     ];
 }

@@ -44,11 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/music-destroy/{id}', [LivePlayerManageController::class, 'destroy'])->name('music.destroy');
 
             Route::get('/settings', [SettingsController::class, 'index'])->name('settings.list');
-            Route::get('/settings-add', [SettingsController::class, 'create'])->name('settings.create');
-            Route::post('/settings-add', [SettingsController::class, 'store'])->name('settings.store');
-            Route::get('/settings-edit/{id}', [SettingsController::class, 'edit'])->name('settings.edit');
-            Route::put('/settings-update/{id}', [SettingsController::class, 'update'])->name('settings.update');
-            Route::post('/settings-destroy/{id}', [SettingsController::class, 'destroy'])->name('settings.destroy');
+            Route::put('/settings-update', [SettingsController::class, 'update'])->name('settings.update');
 
     });
 

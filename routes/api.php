@@ -29,7 +29,4 @@ Route::put('/music-updatelistening/{id}', [LivePlayerManageControllerApi::class,
 Route::delete('/music/{id}', [LivePlayerManageControllerApi::class, 'destroy']);
 
 Route::get('/settings', [SettingsControllerApi::class, 'index']);
-Route::get('/settings/{id}', [SettingsControllerApi::class, 'show']);
-Route::post('/settings', [SettingsControllerApi::class, 'store']);
 Route::put('/settings/{id}', [SettingsControllerApi::class, 'update']);
-Route::delete('/settings/{id}', [SettingsControllerApi::class, 'destroy']);
