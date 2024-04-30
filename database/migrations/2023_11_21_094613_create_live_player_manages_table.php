@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('artist')->nullable();
             $table->string('image')->nullable();
-            $table->string('song_file');
+            $table->string('song_file')->nullable();
+            $table->string('song_file_link')->nullable();
             $table->integer('listening');
             $table->integer('android');
             $table->integer('ios');

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class LivePlayerManage extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'artist', 'image', 'song_file','listening','android','ios', 'status'];
+    protected $fillable = ['title', 'artist', 'image', 'song_file', 'song_file_link','listening','android','ios', 'status'];
 }

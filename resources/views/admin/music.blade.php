@@ -20,11 +20,11 @@
       <th scope="col">Id</th>
       <th scope="col">Title</th>
       <th scope="col">Artist</th>
-      <th scope="col">Image</th>
       <th scope="col">Song file</th>
       <th scope="col">Listening</th>
       <th scope="col">Android</th>
       <th scope="col">Ios</th>
+      <th scope="col">Image</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -34,17 +34,26 @@
       <th scope="row">{{ $music->id }}</th>
       <td>{{ $music->title }}</td>
       <td>{{ $music->artist }}</td>
-      <td><img src="{{ asset('image/' . $music->image) }}" alt="Music Image" style="width: 50px; height: 50px;"></td>
 
-      <!-- Creating a download link for the song file -->
       <td>
-          <a href="{{ asset('song_file/' . $music->song_file) }}" download="{{ $music->song_file }}">
-              {{ $music->song_file }}
-          </a>
+        
+        @if ($music->song_file)
+        <a href="{{ asset('song_file/' . $music->song_file) }}" download="{{ $music->song_file }}">
+            {{ $music->song_file }}
+        </a>
+          @else
+          <a href="{{ $music->song_file_link }}">
+            {{ $music->song_file_link }}
+         </a>
+          @endif
       </td>
       <td>{{ $music->listening }}</td>
       <td>{{ $music->android }}</td>
       <td>{{ $music->ios }}</td>
+      <td>
+       
+        <img src="{{ asset('image/' . $music->image) }}" alt="Music Image" style="width: 50px; height: 50px;"></td>
+
       <td>
         <!-- Edit Icon -->
         <a href="{{ route('music.edit', $music->id) }}" class="btn btn-warning btn-sm">

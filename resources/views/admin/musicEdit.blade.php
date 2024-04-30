@@ -28,30 +28,21 @@
             </div>
         @endif
       </div>
-    <!-- Image Input -->
+ <!-- Music Link Input -->
 <div class="form-group col-md-12 my-2">
-    <label for="image">Image</label>
-    <input type="file" class="form-control-file" id="image" name="image" accept="image/*" onchange="previewImage(this)">
-    <img id="imagePreview" class="img-fluid mt-2" style="display: none;" alt="Image Preview">
+    <label for="song_file_link">Music Link</label>
+    <input type="text" class="form-control" id="song_file_link" name="song_file_link" value="{{ $music->song_file_link }}" placeholder="Enter Link">
 
-    @if ($errors->has('image'))
+    @if ($errors->has('song_file_link'))
         <div>
-            @foreach ($errors->get('image') as $error)
+            @foreach ($errors->get('song_file_link') as $error)
                 <span class="text-danger">{{ $error }}</span>
             @endforeach
         </div>
     @endif
-
-    <!-- Display the current image if it exists -->
-    @if ($music && $music->image)
-        <div class="mt-2">
-            <label>Current Image:</label>
-            <img src="{{ asset('image/' . $music->image) }}" alt="Current Music Image" style="width: 50px; height: 50px;">
-        </div>
-    @endif
 </div>
 
-<!-- Song File Input -->
+<!-- Music File Input -->
 <div class="form-group col-md-12 my-2">
     <label for="song_file">Music File</label>
     <input type="file" class="form-control-file" id="song_file" name="song_file" accept=".mp3">
@@ -71,6 +62,28 @@
             <a href="{{ asset('song_file/' . $music->song_file) }}" download="{{ $music->song_file }}">
                 {{ $music->song_file }}
             </a>
+        </div>
+    @endif
+</div>
+
+<div class="form-group col-md-12 my-2">
+    <label for="image">Image</label>
+    <input type="file" class="form-control-file" id="image" name="image" accept="image/*" onchange="previewImage(this)">
+    <img id="imagePreview" class="img-fluid mt-2" style="display: none;" alt="Image Preview">
+
+    @if ($errors->has('image'))
+        <div>
+            @foreach ($errors->get('image') as $error)
+                <span class="text-danger">{{ $error }}</span>
+            @endforeach
+        </div>
+    @endif
+
+    <!-- Display the current image if it exists -->
+    @if ($music && $music->image)
+        <div class="mt-2">
+            <label>Current Image:</label>
+            <img src="{{ asset('image/' . $music->image) }}" alt="Current Music Image" style="width: 50px; height: 50px;">
         </div>
     @endif
 </div>

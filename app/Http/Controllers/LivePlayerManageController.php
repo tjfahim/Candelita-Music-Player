@@ -39,16 +39,21 @@ class LivePlayerManageController extends Controller
             'title' => 'required|string|max:255',
             'artist' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'song_file' => 'required|file|mimes:mp3|max:20480',
+            'song_file' => 'file|mimes:mp3|max:20480',
+            'song_file_link' => 'string',
             'listening' => 'integer|max:255',
             'android' => 'integer|max:255',
             'ios' => 'integer|max:255',
         ]);
 
+
+        $validator->sometimes(['song_file', 'song_file_link'], 'required_without_all:song_file,song_file_link', function ($input) {
+            return !$input->song_file && !$input->song_file_link;
+        });
+  
         if ($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator);
         }
-  
         $input = $request->all();
 
         $input['listening'] = 0;
@@ -104,6 +109,7 @@ class LivePlayerManageController extends Controller
             'artist' => 'nullable|string|max:255',
             'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'song_file' => 'file|mimes:mp3|max:20480',
+            'song_file_link' => 'string',
             'listening' => 'integer|max:255',
             'android' => 'integer|max:255',
             'ios' => 'integer|max:255',
@@ -112,6 +118,12 @@ class LivePlayerManageController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator);
         }
+        
+        if ($request->has('song_file') && $request->has('song_file_link')) {
+            $validator->errors()->add('song_file', 'Only one of Link or Music File should be set');
+            return Redirect::back()->withInput()->withErrors($validator);
+        }
+
         $input = $request->all();
 
         $input['listening'] = $input['listening'] ?? $music->listening;

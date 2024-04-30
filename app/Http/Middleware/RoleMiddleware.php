@@ -17,17 +17,15 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, ...$roles)
     {
-        if (!Auth::check()) {
-            return redirect('/login');
+        if (Auth::check()) {
+            foreach ($roles as $role) {
+                if (Auth::user()->role == $role) {
+                    return $next($request);
+                }
+            }
         }
 
-        $user = Auth::user();
-
-        if (in_array($user->role, $roles)) {
-            return $next($request);
-        }
-
-        abort(403, 'Unauthorized action.');
+        return response('Unauthorized.', 401);
     }
 
 
